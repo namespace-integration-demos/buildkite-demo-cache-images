@@ -1,0 +1,11 @@
+steps:
+  - command: |
+      time npx -y supabase start --debug || true
+      sleep 600
+    plugins:
+      - namespacelabs/nscache#v0.1:
+          paths: ["~/.npm"]
+    agents:
+      nsc-cache-tag: buildkite-demo-cache-images/npm-cache
+      nsc-experimental-containerd-cache-tag: buildkite-demo-cache-images/containerd-cache
+      nsc-experimental-containerd-cache-size: 20g
