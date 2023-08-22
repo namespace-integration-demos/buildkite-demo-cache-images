@@ -1,7 +1,6 @@
 steps:
   - command: |
-      time npx -y supabase start --debug || true
-      sleep 600
+      time npx -y supabase start
     plugins:
       - namespacelabs/nscache#v0.1:
           paths: ["~/.npm"]
