@@ -1,0 +1,39 @@
+name: Start supabase with Namespace Container Image Caching
+on:
+  workflow_dispatch:
+  push:
+
+permissions:
+  packages: read
+  contents: read
+  id-token: write # This is required for requesting the JWT
+
+jobs:
+  github_supabase:
+    name: Run Supabase with GitHub
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Go
+        uses: actions/setup-node@v4
+        with:
+          node-version: 16
+          cache: 'npm'
+      - name: Run Supabase
+        run: time npx -y supabase start
+
+  namespace_supabase:
+    name: Run Supabase with Namespace
+    runs-on: namespace-profile-amd64-with-caching
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Namespace Cache
+        uses: namespacelabs/nscloud-cache-action@v1
+        with:
+          path: |
+            ~/.npm
+            ./node_modules
+      - name: Run Supabase
+        run: time npx -y supabase start
